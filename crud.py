@@ -58,17 +58,17 @@ class disciplina:
         self.notafinal = (av1 + av2) / 2
         self.set_notafinal()
         self.get_notafinal()
+    
+    def set_notafinal(self):
+        if self.notafinal >= 5:
+            print(f'aluno {self.nome} Aprovado')
+        elif notafinal == 4:
+            print(f'aluno {self.nome} em Recuperação ')
+        else:
+            print(f'aluno {self.nome} Reprovado')
 
-        def set_notafinal(self):
-            if self.notafinal >= 5:
-                print(f'aluno {self.nome} Aprovado')
-            elif notafinal == 4:
-                print(f'aluno {self.nome} em Recuperação ')
-            else:
-                print(f'aluno {self.nome} Reprovado')
-
-        def get_notafinal(self):
-            return self.notafinal
+    def get_notafinal(self):
+        return self.notafinal
             
 
         

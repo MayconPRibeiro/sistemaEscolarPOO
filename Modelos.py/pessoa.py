@@ -21,19 +21,3 @@ class Pessoa(ABC):
     @abstractmethod
     def consultar_notas(self):
         pass
-
-class Aluno(Pessoa):
-    def __init__(self, cpf, nome, idade, escolaridade):
-        super().__init__(cpf, nome, idade, escolaridade)
-
-    def consultar_notas(self):
-        pass
-
-
-class Professor(Pessoa):
-    def __init__(self, cpf, nome, idade, escolaridade, disciplina):
-        super().__init__(cpf, nome, idade, escolaridade)
-        self.disciplina = disciplina
-
-    def adicionar_nota(self, aluno, nota, turma):
-        pass
