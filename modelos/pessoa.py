@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
 
 class Pessoa(ABC):
-    def __init__(self, cpf, nome, idade, escolaridade):
+    def __init__(self, cpf, nome):
         self.__cpf = cpf
         self.nome = nome
-        self.idade = idade
-        self.escolaridade = escolaridade
+        
+        
         
     @property
     def cpf(self):
@@ -21,3 +21,5 @@ class Pessoa(ABC):
     @abstractmethod
     def consultar_notas(self):
         pass
+
+        
