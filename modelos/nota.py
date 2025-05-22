@@ -16,7 +16,7 @@ class Nota:
 
     @property
     def obter_notas(self):
-        return f'Disciplina {self.disciplina.nome}. Av1 = {self.av1}. Av2 = {self.av2}.'
+        return f'Disciplina {self.disciplina.nome} || Aluno {self.aluno.nome}. Nota: Av1 = {self.av1}. Av2 = {self.av2}. Média: {self.media()}. Situação: {self.situacao()}.'
 
     def media(self):
         return((self.av1 + self.av2) / 2)
