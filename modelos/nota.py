@@ -3,6 +3,7 @@ from modelos.aluno import Aluno
 
 class Nota:
     def __init__(self, aluno, disciplina, av1=0, av2=0):
+        
         if not (av1 >= 0 and av1 <= 10):
             raise ValueError("Notas devem estar entre 0 e 10.")
         if not isinstance(av1, (int, float)):
