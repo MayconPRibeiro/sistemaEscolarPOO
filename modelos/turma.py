@@ -5,6 +5,7 @@ from modelos.disciplina import Disciplina
 
 class Turma():
     
+    turmas = []
     
     def __init__(self, nome, periodo, alunos=None, disciplinas=None):
         
@@ -12,8 +13,17 @@ class Turma():
         self.periodo = periodo
         self.alunos = alunos if alunos is not None else []
         self.disciplinas = disciplinas if disciplinas is not None else []
+
+        Turma.turmas.append(self)
+
+    @classmethod
+    def listar_turmas(cls):
+        if not cls.turmas:
+            print("Nenhuma turma cadastrada.")
+        else:
+            for i, turma in enumerate(cls.turmas):
+                print(f"{i} - {turma.nome} | Período: {turma.periodo}")
         
-    
     
     def adicionar_aluno(self, aluno):
         if aluno not in self.alunos:
@@ -26,7 +36,7 @@ class Turma():
 
 
     def remover_aluno(self, aluno):
-        if aluno in self.aluno:
+        if aluno in self.alunos:
             self.alunos.remove(aluno)
             print(f"Aluno {aluno.nome} removido da turma {self.nome}.")
         else:
@@ -40,6 +50,7 @@ class Turma():
         print('Alunos:')
         for aluno in self.alunos:
             print(f'  - {aluno.nome}')
-            
+
+
             
  
