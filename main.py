@@ -11,19 +11,21 @@ def exibir_menu():
     print("2. Cadastrar professor")
     print("3. Criar turma")
     print("4. Adicionar aluno à turma")
-    print("5. Adicionar disciplina à turma")
+    print("5. Adicionar a disciplina a turma")
     print("6. Matricular aluno em disciplina")
     print("7. Adicionar nota ao aluno")
     print("8. Consultar notas do aluno")
     print("9. Listar turmas")
     print("10. Exibir turma")
     print("11. Listar notas da disciplina")
+    print("12. Criar disciplina")  # <-- NOVA OPÇÃO AQUI
     print("0. Sair")
 
 # Objetos globais de exemplo (em produção, isso seria persistido num banco)
 alunos = []
 professores = []
 turmas = []
+disciplinas = []
 
 def menu():
     while True:
@@ -71,13 +73,21 @@ def menu():
             print(f"Aluno adicionado à turma.")
 
         elif opcao == "5":
-            nome = input("Nome da disciplina: ")
-            disciplina = Disciplina(nome)
-            for i, t in enumerate(turmas):
-                print(f"{i} - {t.nome}")
-            turma_idx = int(input("Selecione a turma: "))
-            turmas[turma_idx].adicionar_disciplina(disciplina)
-            print("Disciplina adicionada à turma.")
+            if not disciplinas or not turmas:
+                print("Cadastre disciplinas e turmas antes.")
+                continue
+
+            [print(f"{i} - {t.nome}") for i, t in enumerate(turmas)]
+            turma = turmas[int(input("Selecione a turma: "))]
+
+            [print(f"{i} - {d.nome} (ID: {d.id})") for i, d in enumerate(disciplinas)]
+            disciplina = disciplinas[int(input("Selecione a disciplina: "))]
+
+            if disciplina in turma.disciplinas:
+                print("Disciplina já adicionada à turma.")
+            else:
+                turma.adicionar_disciplina(disciplina)
+                print("Disciplina adicionada à turma.")
 
         elif opcao == "6":
             for i, a in enumerate(alunos):
@@ -135,6 +145,12 @@ def menu():
                 print(f"{i} - {d.nome}")
             disc_idx = int(input("Selecione a disciplina: "))
             turmas[turma_idx].disciplinas[disc_idx].listar_notas()
+        
+        elif opcao == "12":
+            nome = input("Nome da disciplina: ")
+            id_disciplina = input("ID da disciplina: ")
+            Disciplina(nome, id_disciplina)
+            print(f"Disciplina '{nome}' (ID: {id_disciplina}) criada com sucesso.")
 
         elif opcao == "0":
             print("Saindo do sistema.")

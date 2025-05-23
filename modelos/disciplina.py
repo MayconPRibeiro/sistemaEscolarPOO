@@ -1,10 +1,14 @@
 from modelos.nota import Nota
 
 class Disciplina:
+
+    disciplinas = []  ## Atributo de classe
     def __init__(self, nome, id):
         self.nome = nome
         self.id = id
         self.notas = []
+
+        Disciplina.disciplinas.append(self)
 
     def adicionar_nota(self, nota):
         self.notas.append(nota)
