@@ -5,305 +5,147 @@ from modelos.nota import Nota
 from modelos.turma import Turma
 
 
-def main():
-    turmas = []
-    disciplinas = []
-    professores = []
-    alunos = []
-    
-    while True:
-        print("\n--- MENU PRINCIPAL ---")
-        print("1. Gerenciar Turmas")
-        print("2. Gerenciar Disciplinas")
-        print("3. Gerenciar Professores")
-        print("4. Gerenciar Alunos")
-        print("5. Gerenciar Notas")
-        print("0. Sair")
-        
-        opcao = input("Escolha uma opção: ")
-        
-        if opcao == "0":
-            print("Saindo do sistema...")
-            break
-            
-        elif opcao == "1":
-            gerenciar_turmas(turmas, disciplinas, alunos)
-            
-        elif opcao == "2":
-            gerenciar_disciplinas(disciplinas)
-            
-        elif opcao == "3":
-            gerenciar_professores(professores, disciplinas)
-            
-        elif opcao == "4":
-            gerenciar_alunos(alunos, turmas, disciplinas)
-            
-        elif opcao == "5":
-            gerenciar_notas(alunos, professores, disciplinas)
-            
-        else:
-            print("Opção inválida. Tente novamente.")
+def exibir_menu():
+    print("\n===== MENU PRINCIPAL =====")
+    print("1. Cadastrar aluno")
+    print("2. Cadastrar professor")
+    print("3. Criar turma")
+    print("4. Adicionar aluno à turma")
+    print("5. Adicionar disciplina à turma")
+    print("6. Matricular aluno em disciplina")
+    print("7. Adicionar nota ao aluno")
+    print("8. Consultar notas do aluno")
+    print("9. Listar turmas")
+    print("10. Exibir turma")
+    print("11. Listar notas da disciplina")
+    print("0. Sair")
 
-def gerenciar_turmas(turmas, disciplinas, alunos):
-    while True:
-        print("\n--- GERENCIAR TURMAS ---")
-        print("1. Criar turma")
-        print("2. Listar turmas")
-        print("3. Adicionar aluno à turma")
-        print("4. Adicionar disciplina à turma")
-        print("5. Remover aluno da turma")
-        print("6. Exibir detalhes da turma")
-        print("0. Voltar")
-        
-        opcao = input("Escolha uma opção: ")
-        
-        if opcao == "0":
-            break
-            
-        elif opcao == "1":
-            nome = input("Digite o nome da turma: ")
-            periodo = input("Digite o período da turma: ")
-            turma1 = Turma(nome, periodo)
-            print(f"Turma {turma1.nome} criada com sucesso!")
-            
-        elif opcao == "2":
-            Turma.listar_turmas()
-                
-        elif opcao == "3":
-            if not turmas or not alunos:
-                print("É necessário ter turmas e alunos cadastrados primeiro.")
-                continue
-                
-            listar_turmas(turmas)
-            turma_idx = int(input("Número da turma: ")) - 1
-            
-            listar_alunos(alunos)
-            aluno_idx = int(input("Número do aluno: ")) - 1
-            
-            turmas[turma_idx].adicionar_aluno(alunos[aluno_idx])
-            print(f"Aluno {alunos[aluno_idx].nome} adicionado à turma {turmas[turma_idx].nome}")
-            
-        elif opcao == "4":
-            if not turmas or not disciplinas:
-                print("É necessário ter turmas e disciplinas cadastradas primeiro.")
-                continue
-                
-            listar_turmas(turmas)
-            turma_idx = int(input("Número da turma: ")) - 1
-            
-            listar_disciplinas(disciplinas)
-            disciplina_idx = int(input("Número da disciplina: ")) - 1
-            
-            turmas[turma_idx].adicionar_disciplina(disciplinas[disciplina_idx])
-            print(f"Disciplina {disciplinas[disciplina_idx].nome} adicionada à turma {turmas[turma_idx].nome}")
-            
-        elif opcao == "5":
-            if not turmas:
-                print("Não há turmas cadastradas.")
-                continue
-                
-            listar_turmas(turmas)
-            turma_idx = int(input("Número da turma: ")) - 1
-            
-            if not turmas[turma_idx].alunos:
-                print("Esta turma não tem alunos.")
-                continue
-                
-            for i, aluno in enumerate(turmas[turma_idx].alunos, 1):
-                print(f"{i}. {aluno.nome}")
-                
-            aluno_idx = int(input("Número do aluno a remover: ")) - 1
-            turmas[turma_idx].remover_aluno(turmas[turma_idx].alunos[aluno_idx])
-            
-        elif opcao == "6":
-            if not turmas:
-                print("Não há turmas cadastradas.")
-                continue
-                
-            listar_turmas(turmas)
-            turma_idx = int(input("Número da turma: ")) - 1
-            turmas[turma_idx].exibir()
-            
-        else:
-            print("Opção inválida. Tente novamente.")
+# Objetos globais de exemplo (em produção, isso seria persistido num banco)
+alunos = []
+professores = []
+turmas = []
 
-def gerenciar_disciplinas(disciplinas):
+def menu():
     while True:
-        print("\n--- GERENCIAR DISCIPLINAS ---")
-        print("1. Criar disciplina")
-        print("2. Listar disciplinas")
-        print("3. Listar notas de uma disciplina")
-        print("0. Voltar")
-        
+        exibir_menu()
         opcao = input("Escolha uma opção: ")
-        
-        if opcao == "0":
-            break
-            
-        elif opcao == "1":
-            nome = input("Nome da disciplina: ")
-            id_disciplina = input("ID da disciplina: ")
-            disciplina = Disciplina(nome, id_disciplina)
-            disciplinas.append(disciplina)
-            print(f"Disciplina {nome} criada com sucesso!")
-            
-        elif opcao == "2":
-            listar_disciplinas(disciplinas)
-            
-        elif opcao == "3":
-            if not disciplinas:
-                print("Não há disciplinas cadastradas.")
-                continue
-                
-            listar_disciplinas(disciplinas)
-            disciplina_idx = int(input("Número da disciplina: ")) - 1
-            disciplinas[disciplina_idx].listar_notas()
-            
-        else:
-            print("Opção inválida. Tente novamente.")
 
-def gerenciar_professores(professores, disciplinas):
-    while True:
-        print("\n--- GERENCIAR PROFESSORES ---")
-        print("1. Cadastrar professor")
-        print("2. Listar professores")
-        print("0. Voltar")
-        
-        opcao = input("Escolha uma opção: ")
-        
-        if opcao == "0":
-            break
-            
-        elif opcao == "1":
-            if not disciplinas:
-                print("É necessário cadastrar disciplinas primeiro.")
-                continue
-                
-            cpf = input("CPF do professor (apenas números): ")
-            nome = input("Nome do professor: ")
-            
-            listar_disciplinas(disciplinas)
-            disciplina_idx = int(input("Número da disciplina que o professor leciona: ")) - 1
-            
-            professor = Professor(cpf, nome, disciplinas[disciplina_idx])
-            professores.append(professor)
-            print(f"Professor {nome} cadastrado com sucesso!")
-            
-        elif opcao == "2":
-            for i, professor in enumerate(professores, 1):
-                print(f"{i}. {professor.nome} - CPF: {professor.cpf} - Disciplina: {professor.disciplina.nome}")
-                
-        else:
-            print("Opção inválida. Tente novamente.")
-
-def gerenciar_alunos(alunos, turmas, disciplinas):
-    while True:
-        print("\n--- GERENCIAR ALUNOS ---")
-        print("1. Cadastrar aluno")
-        print("2. Listar alunos")
-        print("3. Matricular aluno em disciplina")
-        print("4. Consultar notas do aluno")
-        print("0. Voltar")
-        
-        opcao = input("Escolha uma opção: ")
-        
-        if opcao == "0":
-            break
-            
-        elif opcao == "1":
-            cpf = input("CPF do aluno (apenas números): ")
+        if opcao == "1":
             nome = input("Nome do aluno: ")
-            aluno = Aluno(cpf, nome)
-            alunos.append(aluno)
-            print(f"Aluno {nome} cadastrado com sucesso!")
-            
-        elif opcao == "2":
-            listar_alunos(alunos)
-            
-        elif opcao == "3":
-            if not alunos or not disciplinas:
-                print("É necessário ter alunos e disciplinas cadastrados primeiro.")
-                continue
-                
-            listar_alunos(alunos)
-            aluno_idx = int(input("Número do aluno: ")) - 1
-            
-            listar_disciplinas(disciplinas)
-            disciplina_idx = int(input("Número da disciplina: ")) - 1
-            
+            cpf = input("CPF (11 dígitos): ")
             try:
-                alunos[aluno_idx].matricular(disciplinas[disciplina_idx])
-                print(f"Aluno {alunos[aluno_idx].nome} matriculado em {disciplinas[disciplina_idx].nome}")
-            except Aluno_duplicado_error as e:
-                print(f"Erro: {e}")
-                
+                aluno = Aluno(nome, cpf)
+                alunos.append(aluno)
+                print(f"Aluno {nome} cadastrado com sucesso.")
+            except ValueError as e:
+                print(e)
+
+        elif opcao == "2":
+            nome = input("Nome do professor: ")
+            cpf = input("CPF (11 dígitos): ")
+            try:
+                professor = Professor(nome, cpf)
+                professores.append(professor)
+                print(f"Professor {nome} cadastrado com sucesso.")
+            except ValueError as e:
+                print(e)
+
+        elif opcao == "3":
+            nome = input("Nome da turma: ")
+            periodo = input("Período: ")
+            turma = Turma(nome, periodo)
+            turmas.append(turma)
+            print(f"Turma {nome} criada com sucesso.")
+
         elif opcao == "4":
-            if not alunos:
-                print("Não há alunos cadastrados.")
+            if not alunos or not turmas:
+                print("Cadastre alunos e turmas antes.")
                 continue
-                
-            listar_alunos(alunos)
-            aluno_idx = int(input("Número do aluno: ")) - 1
-            
+            for i, t in enumerate(turmas):
+                print(f"{i} - {t.nome}")
+            turma_idx = int(input("Selecione a turma: "))
+            for i, a in enumerate(alunos):
+                print(f"{i} - {a.nome}")
+            aluno_idx = int(input("Selecione o aluno: "))
+            turmas[turma_idx].adicionar_aluno(alunos[aluno_idx])
+            print(f"Aluno adicionado à turma.")
+
+        elif opcao == "5":
+            nome = input("Nome da disciplina: ")
+            disciplina = Disciplina(nome)
+            for i, t in enumerate(turmas):
+                print(f"{i} - {t.nome}")
+            turma_idx = int(input("Selecione a turma: "))
+            turmas[turma_idx].adicionar_disciplina(disciplina)
+            print("Disciplina adicionada à turma.")
+
+        elif opcao == "6":
+            for i, a in enumerate(alunos):
+                print(f"{i} - {a.nome}")
+            aluno_idx = int(input("Selecione o aluno: "))
+            for i, t in enumerate(turmas):
+                print(f"{i} - {t.nome}")
+            turma_idx = int(input("Selecione a turma: "))
+            for i, d in enumerate(turmas[turma_idx].disciplinas):
+                print(f"{i} - {d.nome}")
+            disc_idx = int(input("Selecione a disciplina: "))
+            try:
+                alunos[aluno_idx].matricular(turmas[turma_idx].disciplinas[disc_idx])
+                print("Aluno matriculado na disciplina.")
+            except Exception as e:
+                print(e)
+
+        elif opcao == "7":
+            for i, a in enumerate(alunos):
+                print(f"{i} - {a.nome}")
+            aluno_idx = int(input("Selecione o aluno: "))
+            for i, d in enumerate(alunos[aluno_idx].disciplinas_matriculadas):
+                print(f"{i} - {d.nome}")
+            disc_idx = int(input("Selecione a disciplina: "))
+            av1 = float(input("Nota AV1: "))
+            av2 = float(input("Nota AV2: "))
+            nota = Nota(alunos[aluno_idx], alunos[aluno_idx].disciplinas_matriculadas[disc_idx], av1, av2)
+            alunos[aluno_idx].adicionar_nota(nota)
+            alunos[aluno_idx].disciplinas_matriculadas[disc_idx].adicionar_nota(nota)
+            print("Nota adicionada com sucesso.")
+
+        elif opcao == "8":
+            for i, a in enumerate(alunos):
+                print(f"{i} - {a.nome}")
+            aluno_idx = int(input("Selecione o aluno: "))
             try:
                 alunos[aluno_idx].consultar_notas()
             except ValueError as e:
-                print(f"Erro: {e}")
-                
-        else:
-            print("Opção inválida. Tente novamente.")
+                print(e)
 
-def gerenciar_notas(alunos, professores, disciplinas):
-    while True:
-        print("\n--- GERENCIAR NOTAS ---")
-        print("1. Adicionar nota (professor)")
-        print("0. Voltar")
-        
-        opcao = input("Escolha uma opção: ")
-        
-        if opcao == "0":
+        elif opcao == "9":
+            Turma.listar_turmas()
+
+        elif opcao == "10":
+            for i, t in enumerate(turmas):
+                print(f"{i} - {t.nome}")
+            turma_idx = int(input("Selecione a turma: "))
+            turmas[turma_idx].exibir()
+
+        elif opcao == "11":
+            for i, t in enumerate(turmas):
+                print(f"{i} - {t.nome}")
+            turma_idx = int(input("Selecione a turma: "))
+            for i, d in enumerate(turmas[turma_idx].disciplinas):
+                print(f"{i} - {d.nome}")
+            disc_idx = int(input("Selecione a disciplina: "))
+            turmas[turma_idx].disciplinas[disc_idx].listar_notas()
+
+        elif opcao == "0":
+            print("Saindo do sistema.")
             break
-            
-        elif opcao == "1":
-            if not professores or not alunos or not disciplinas:
-                print("É necessário ter professores, alunos e disciplinas cadastrados primeiro.")
-                continue
-                
-            listar_professores(professores)
-            professor_idx = int(input("Número do professor: ")) - 1
-            
-            listar_alunos(alunos)
-            aluno_idx = int(input("Número do aluno: ")) - 1
-            
-            av1 = float(input("Nota AV1: "))
-            av2 = float(input("Nota AV2: "))
-            
-            try:
-                professores[professor_idx].adicionar_nota2(alunos[aluno_idx], disciplinas[professor_idx].disciplina, av1, av2)
-                print("Notas adicionadas com sucesso!")
-            except ValueError as e:
-                print(f"Erro: {e}")
-            except TypeError as e:
-                print(f"Erro: {e}")
-                
+
         else:
-            print("Opção inválida. Tente novamente.")
+            print("Opção inválida.")
 
-def listar_turmas(turmas):
-    for i, turma in enumerate(turmas, 1):
-        print(f"{i}. {turma.nome} - {turma.periodo}")
+def main():
+    menu()
 
-def listar_disciplinas(disciplinas):
-    for i, disciplina in enumerate(disciplinas, 1):
-        print(f"{i}. {disciplina.nome} - ID: {disciplina.id}")
-
-def listar_alunos(alunos):
-    for i, aluno in enumerate(alunos, 1):
-        print(f"{i}. {aluno.nome} - CPF: {aluno.cpf}")
-
-def listar_professores(professores):
-    for i, professor in enumerate(professores, 1):
-        print(f"{i}. {professor.nome} - Disciplina: {professor.disciplina.nome}")
 
 if __name__ == "__main__":
     main()
